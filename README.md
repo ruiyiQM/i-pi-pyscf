@@ -10,3 +10,5 @@ for i-PI server. And
   $ python rhfdriver.py
   
 for client. The template.gjf file is used to offer calculation level and settings for Gaussian calculation. The atomic types are offered in gdrive.py file.
+
+More options can be added to drive.py file in the form of scanner function. 
