@@ -1,0 +1,4 @@
+# set up two variables for Phi and Psi dihedral angles 
+#OO:    DISTANCE ATOMS=6,11 
+t: TORSION ATOMS=5,1,2,8 NOPBC 
+PRINT FILE=TEST ARG=t STRIDE=1

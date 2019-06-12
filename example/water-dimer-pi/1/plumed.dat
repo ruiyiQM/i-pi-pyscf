@@ -1,0 +1,23 @@
+# set up two variables for Phi and Psi dihedral angles 
+#OO:    DISTANCE ATOMS=6,11 
+t: TORSION ATOMS=4,1,2,7  
+#
+# Activate metadynamics in phi and psi
+# depositing a Gaussian every 500 time steps,
+# with height equal to 1.2 kJ/mol,
+# and width 0.35 rad for both CVs. 
+#
+#
+HISTOGRAM ...
+  ARG=t
+  GRID_MIN=-3.14
+  GRID_MAX=3.14
+  GRID_BIN=300
+  BANDWIDTH=0.3
+  LABEL=hh1
+... HISTOGRAM
+ff1: CONVERT_TO_FES GRID=hh1 TEMP=1500 
+DUMPGRID GRID=ff1 FILE=fes.dat 
+DUMPGRID GRID=hh1 FILE=histo FMT=%24.16e
+# monitor the two variables and the metadynamics bias potential
+PRINT FILE=TEST ARG=t STRIDE=1

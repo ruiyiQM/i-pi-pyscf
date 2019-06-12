@@ -1,0 +1,27 @@
+# set up two variables for Phi and Psi dihedral angles 
+#OO:    DISTANCE ATOMS=6,11 
+phi: READ FILE=HILLS IGNORE_TIME VALUES=phi STRIDE=10
+
+metad: READ FILE=HILLS IGNORE_TIME VALUES=height STRIDE=10
+#
+# Activate metadynamics in phi and psi
+# depositing a Gaussian every 500 time steps,
+# with height equal to 1.2 kJ/mol,
+# and width 0.35 rad for both CVs. 
+#
+#
+weights1: REWEIGHT_METAD TEMP=300 ARG=metad.*
+HISTOGRAM ...
+  ARG=phi
+  GRID_MIN=-pi
+  GRID_MAX=pi
+  GRID_BIN=99
+  BANDWIDTH=0.3
+  LOGWEIGHTS=weights1
+  LABEL=hh1
+... HISTOGRAM
+ff1: CONVERT_TO_FES GRID=hh1 TEMP=300
+DUMPGRID GRID=ff1 FILE=fes.dat
+DUMPGRID GRID=hh1 FILE=histo FMT=%24.16e
+# monitor the two variables and the metadynamics bias potential
+
